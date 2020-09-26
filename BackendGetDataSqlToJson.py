@@ -43,9 +43,7 @@ def verificahds(midias,liberado):
                                 return "X"
                         else:
                                 return " "
-
-
-
+								
 #Variavel para data
 now = datetime.datetime.now()
 #inicia o dicionario
@@ -65,7 +63,7 @@ for section_name in parser.sections():
 		unidades.append(a[0])
 		#pega o segundo parametro do ini
 		linked=a[1]
-		#consulta das midias pendentes
+		#consulta das midias de backup pendentes
 		consmidias = "SELECT count(Cd_N) [Cd_N] FROM " +linked+".RIS.dbo.Hist_CD where CD_gravado = 0 and ISO_gravado = 0 and Size_Of_Cd > 0" 
 		consliberadosembackup = "SELECT COUNT(id_atend) AS Valor FROM " +linked+".RIS.dbo.Atendimento AS A WITH (nolock) WHERE (id_status = 4) AND (N_CD IS NULL) AND(id_atend = id_atend_acesso) AND EXISTS (SELECT AccessionN FROM " +linked+".DICOM.dbo.DICOMStudies AS E WITH (nolock) WHERE(AccessionN = A.id_atend_acesso))"
 		consnumerosmidias = "DECLARE @cd varchar(300) SELECT  @cd = COALESCE(@cd + ' ', '') + cast([Cd_n] as varchar) FROM  " +linked+".RIS.dbo.Hist_CD with (nolock) where ISO_gravado = '0' and CD_gravado ='0' and Size_Of_Cd > '0' SELECT @cd"
